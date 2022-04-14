@@ -7,11 +7,10 @@ services:
     depends_on:
       - php-fpm
     ports:
-      - 0.0.0.0:8000:80
+      - ${IP}:8000:80
     volumes:
-    - ./app:/var/www/html
-    - ./configs/nginx:/etc/nginx/conf.d
-    - ./logs/nginx:/var/log/nginx
+      - ./app:/var/www/html
+      - ./configs/nginx:/etc/nginx/conf.d
 
   php-fpm:
     build:
@@ -20,26 +19,26 @@ services:
     depends_on:
       - db
     volumes:
-    - ./app:/var/www/html
+      - ./app:/var/www/html
 
   db:
     image: mysql:latest
     ports:
-    - 127.0.0.1:3306:3306
+      - ${IP}:3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db
-      MYSQL_USER: username
-      MYSQL_PASSWORD: userpass
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER_NAME}
+      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
     volumes:
       - ./db-dumps/:/docker-entrypoint-initdb.d/
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    depends_on: 
+    depends_on:
       - db
     ports:
-    - 127.0.0.1:8080:80
+      - ${IP}:8080:80
     environment:
       PMA_USER: root
-      PMA_PASSWORD: root
+      PMA_PASSWORD:
