@@ -27,12 +27,12 @@ services:
     ports:
     - 127.0.0.1:3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: rootroot
-      MYSQL_DATABASE: pb
-      MYSQL_USER: pb_user
-      MYSQL_PASSWORD: pb_password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: username
+      MYSQL_PASSWORD: userpass
     volumes:
-    - ./databases/mariadb:/var/lib/mysql
+      - ./db-dumps/:/docker-entrypoint-initdb.d/
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -42,4 +42,4 @@ services:
     - 127.0.0.1:8080:80
     environment:
       PMA_USER: root
-      PMA_PASSWORD: rootroot
+      PMA_PASSWORD: root
